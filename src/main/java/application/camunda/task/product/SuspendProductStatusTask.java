@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class SuspendProductStatusTask extends TaskDelegate {
     protected final Logger LOGGER = LogManager.getLogger(this.getClass());
     public void execute(DelegateExecution delegateExecution) throws Exception {
-        LOGGER.info("SUSPENDENDO O PRODUTO");
+        LOGGER.info("SUSPENDENDO O ( PRODUTO )");
         delegateExecution.getVariable( "SUB-ID");
         LOGGER.info("PRODUCT STATUS SUSPENSO COM SUCESSO!!");
     }

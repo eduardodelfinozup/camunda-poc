@@ -10,7 +10,12 @@ import org.springframework.stereotype.Component;
 public class SuspendSubscriptionsTask extends TaskDelegate {
     protected final Logger LOGGER = LogManager.getLogger(this.getClass());
     public void execute(DelegateExecution delegateExecution) throws Exception {
-        LOGGER.info("PREPARANDO PARA O CACELAMENTO DO PAYMENT...");
-        delegateExecution.getVariable( "SUB-ID");
+
+        String statusSub = delegateExecution.getVariable("shouldReverseSubscriptionPayment").toString();
+        LOGGER.info("statusSub {}", statusSub);
+        if(statusSub.equalsIgnoreCase("false")){
+            LOGGER.info("[ O STATUS DO SUBSCRIPTION ESTA (ACTIVE) ENTÃO EXECUTE O CACELAMENTO DO PAYMENT ]");
+            delegateExecution.getVariable( "SUB-ID");
+        }
     }
 }

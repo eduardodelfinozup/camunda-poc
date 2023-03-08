@@ -1,4 +1,4 @@
-## CAMUNDA
+## OBJETIVO CRIAR UMA POC PARA TESTAR FLUXOS DO CAMUNDA
 ```
 Link Java: https://github.com/mattferreiras/camunda-course-java
 Link Kotlin: https://github.com/mattferreiras/camunda-course-kotlin
@@ -20,12 +20,24 @@ localhost:8080/rest
 ```
 docs.comunda.org/
 ```
+
+## Testando um exemplo de fluxo simples  
+```
+Nesse exemplo o fluxo sera escolhido automaticamente  uma cor já pre definida
+``` 
+```
+curl --location --request POST 'localhost:8080/workflow/cor-predilect'
+```
 ## Testando workflow
+```
+Para testar: no objeto status coloque uma String "true" ou "false" ex: status = "true"
+```
+ 
 ```
 curl --location --request POST 'localhost:8080/workflow/suspend-products-workflow' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "status": "START_CAMUNDA_POC"
+    "status": "true"
 }'
 ```
 

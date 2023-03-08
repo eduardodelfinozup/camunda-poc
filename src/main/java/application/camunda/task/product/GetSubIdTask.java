@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 public class GetSubIdTask extends TaskDelegate {
     protected final Logger LOGGER = LogManager.getLogger(this.getClass());
     protected WorkflowService workflowService;
-
     @Autowired public GetSubIdTask(WorkflowService workflowService) {
         this.workflowService = workflowService;
     }
@@ -20,9 +19,7 @@ public class GetSubIdTask extends TaskDelegate {
     public void execute(DelegateExecution delegateExecution) throws Exception {
         LOGGER.info("BUSCANDO A SUBSCRIPTION ID SUB-123456");
         delegateExecution.setVariable("SUB-ID", "SUB-123456");
-
         String businessKey = delegateExecution.getBusinessKey();
-        LOGGER.info("businessKey: {} ", businessKey);
-        delegateExecution.setVariable("HAS_STATUS_SUB", businessKey);
+        LOGGER.info("[ businessKey ]: {} ", businessKey);
     }
 }

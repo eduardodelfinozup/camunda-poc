@@ -81,6 +81,12 @@
             <version>${apache.commons-lang3.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!-- h2 Libs -->
         <!--<dependency>-->
             <!--<groupId>com.h2database</groupId>-->
