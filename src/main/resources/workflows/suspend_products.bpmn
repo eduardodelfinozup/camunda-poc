@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0ycqq07" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.4.2" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
+  <bpmn:process id="SUSPEND_PRODUCT" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_12h6mcb</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_12h6mcb" sourceRef="StartEvent_1" targetRef="SUB_ID" />
+    <bpmn:serviceTask id="SUB_ID" name="sub id" camunda:asyncBefore="true" camunda:delegateExpression="${getSubIdTask}">
+      <bpmn:incoming>Flow_12h6mcb</bpmn:incoming>
+      <bpmn:outgoing>Flow_0q9431u</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0q9431u" sourceRef="SUB_ID" targetRef="SUSPEND_SUBSCRIPTIONS" />
+    <bpmn:callActivity id="SUSPEND_SUBSCRIPTIONS" name="suspend" camunda:asyncBefore="true" calledElement="SUSPEND_SUBSCRIPTIONS">
+      <bpmn:extensionElements>
+        <camunda:out variables="all" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0q9431u</bpmn:incoming>
+      <bpmn:outgoing>Flow_1r1hc40</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:exclusiveGateway id="Gateway_1se6as6">
+      <bpmn:incoming>Flow_1r1hc40</bpmn:incoming>
+      <bpmn:outgoing>ID_CONDICAO_SUB_ATIVA</bpmn:outgoing>
+      <bpmn:outgoing>ID_CONDICAO_SUB_SUSPENSA</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1r1hc40" sourceRef="SUSPEND_SUBSCRIPTIONS" targetRef="Gateway_1se6as6" />
+    <bpmn:sequenceFlow id="ID_CONDICAO_SUB_ATIVA" sourceRef="Gateway_1se6as6" targetRef="SUSPEND_SUB_SOM">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!STATUS_SUB}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="SUSPEND_SUB_SOM" name="som" camunda:asyncBefore="true" camunda:delegateExpression="${somSuspendProductTask}">
+      <bpmn:incoming>ID_CONDICAO_SUB_ATIVA</bpmn:incoming>
+      <bpmn:outgoing>Flow_1qx3t6l</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1qx3t6l" sourceRef="SUSPEND_SUB_SOM" targetRef="SUSPEND_PRODUCT_STATUS" />
+    <bpmn:serviceTask id="SUSPEND_PRODUCT_STATUS" name="product" camunda:asyncBefore="true" camunda:delegateExpression="${suspendProductStatusTask}">
+      <bpmn:incoming>Flow_1qx3t6l</bpmn:incoming>
+      <bpmn:incoming>ID_CONDICAO_SUB_SUSPENSA</bpmn:incoming>
+      <bpmn:outgoing>Flow_19h6k4g</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_0ete4uz">
+      <bpmn:incoming>Flow_0axrj2y</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0axrj2y" sourceRef="CUSTOEMR_COMPLET" targetRef="Event_0ete4uz" />
+    <bpmn:sequenceFlow id="ID_CONDICAO_SUB_SUSPENSA" sourceRef="Gateway_1se6as6" targetRef="SUSPEND_PRODUCT_STATUS">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${STATUS_SUB}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="CUSTOEMR_COMPLET" name="customer complet" camunda:asyncBefore="true" camunda:delegateExpression="${customerCompletTask}">
+      <bpmn:incoming>Flow_11hgk08</bpmn:incoming>
+      <bpmn:outgoing>Flow_0axrj2y</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_19h6k4g" sourceRef="SUSPEND_PRODUCT_STATUS" targetRef="Event_0mpkxqr" />
+    <bpmn:intermediateCatchEvent id="Event_0mpkxqr">
+      <bpmn:incoming>Flow_19h6k4g</bpmn:incoming>
+      <bpmn:outgoing>Flow_11hgk08</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_1qw4v7g">
+        <bpmn:timeDate xsi:type="bpmn:tFormalExpression">PT15S</bpmn:timeDate>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_11hgk08" sourceRef="Event_0mpkxqr" targetRef="CUSTOEMR_COMPLET" />
+    <bpmn:textAnnotation id="TextAnnotation_1svw9md">
+      <bpmn:text>Assinate já suspenso</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_076rdzf" sourceRef="ID_CONDICAO_SUB_SUSPENSA" targetRef="TextAnnotation_1svw9md" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="SUSPEND_PRODUCT">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="142" y="242" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0rylfre_di" bpmnElement="SUB_ID">
+        <dc:Bounds x="250" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0duzkwu_di" bpmnElement="SUSPEND_SUBSCRIPTIONS">
+        <dc:Bounds x="450" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1se6as6_di" bpmnElement="Gateway_1se6as6" isMarkerVisible="true">
+        <dc:Bounds x="645" y="235" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ct2e95_di" bpmnElement="SUSPEND_SUB_SOM">
+        <dc:Bounds x="770" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_196gis4_di" bpmnElement="SUSPEND_PRODUCT_STATUS">
+        <dc:Bounds x="960" y="220" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1svw9md_di" bpmnElement="TextAnnotation_1svw9md">
+        <dc:Bounds x="890" y="60" width="170" height="41" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0h8v18i_di" bpmnElement="CUSTOEMR_COMPLET">
+        <dc:Bounds x="1220" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ete4uz_di" bpmnElement="Event_0ete4uz">
+        <dc:Bounds x="1412" y="242" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_16mn553_di" bpmnElement="Event_0mpkxqr">
+        <dc:Bounds x="1122" y="242" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_12h6mcb_di" bpmnElement="Flow_12h6mcb">
+        <di:waypoint x="178" y="260" />
+        <di:waypoint x="250" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0q9431u_di" bpmnElement="Flow_0q9431u">
+        <di:waypoint x="350" y="260" />
+        <di:waypoint x="450" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1r1hc40_di" bpmnElement="Flow_1r1hc40">
+        <di:waypoint x="550" y="260" />
+        <di:waypoint x="645" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09tk6qo_di" bpmnElement="ID_CONDICAO_SUB_ATIVA">
+        <di:waypoint x="695" y="260" />
+        <di:waypoint x="770" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1qx3t6l_di" bpmnElement="Flow_1qx3t6l">
+        <di:waypoint x="870" y="260" />
+        <di:waypoint x="960" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0axrj2y_di" bpmnElement="Flow_0axrj2y">
+        <di:waypoint x="1320" y="260" />
+        <di:waypoint x="1412" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nnaxes_di" bpmnElement="ID_CONDICAO_SUB_SUSPENSA">
+        <di:waypoint x="670" y="235" />
+        <di:waypoint x="670" y="130" />
+        <di:waypoint x="1010" y="130" />
+        <di:waypoint x="1010" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_076rdzf_di" bpmnElement="Association_076rdzf">
+        <di:waypoint x="832.5" y="130" />
+        <di:waypoint x="890" y="101" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19h6k4g_di" bpmnElement="Flow_19h6k4g">
+        <di:waypoint x="1060" y="260" />
+        <di:waypoint x="1122" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11hgk08_di" bpmnElement="Flow_11hgk08">
+        <di:waypoint x="1158" y="260" />
+        <di:waypoint x="1220" y="260" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

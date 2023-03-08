@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1ijqr42" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.4.2">
+  <bpmn:process id="cor_predilect" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_123kgug</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_123kgug" sourceRef="StartEvent_1" targetRef="CONSULTAR_COR" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1uh2gdp" name="Qual e a cor escolhida ?">
+      <bpmn:incoming>SequenceFlow_1c6rnr5</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1hxgvoo</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0zlaj2v</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_1c6rnr5" sourceRef="CONSULTAR_COR" targetRef="ExclusiveGateway_1uh2gdp" />
+    <bpmn:sequenceFlow id="SequenceFlow_1hxgvoo" name="não é verde" sourceRef="ExclusiveGateway_1uh2gdp" targetRef="COR_RED">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${COR_ESCOLHIDA}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="CONSULTAR_COR" name="consultasr qual e a cor" camunda:asyncBefore="true" camunda:delegateExpression="${consultCor}">
+      <bpmn:incoming>SequenceFlow_123kgug</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1c6rnr5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="COR_RED" name="red" camunda:asyncBefore="true" camunda:delegateExpression="${verifyRed}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="REASON_ID">RED</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1hxgvoo</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1qkyzkw</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0zlaj2v" sourceRef="ExclusiveGateway_1uh2gdp" targetRef="COR_GREN">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!COR_ESCOLHIDA}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="COR_GREN" name="green" camunda:asyncBefore="true" camunda:delegateExpression="${verifyGreen}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="REASON_ID">GREEN</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0zlaj2v</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0sg8nq5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0sg8nq5" sourceRef="COR_GREN" targetRef="TIME_EVENT_COR" />
+    <bpmn:intermediateCatchEvent id="TIME_EVENT_COR">
+      <bpmn:incoming>SequenceFlow_0sg8nq5</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1qkyzkw</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1nmh2pr</bpmn:outgoing>
+      <bpmn:timerEventDefinition>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1M</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="EndEvent_0a7lk7z">
+      <bpmn:incoming>SequenceFlow_1nmh2pr</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1nmh2pr" sourceRef="TIME_EVENT_COR" targetRef="EndEvent_0a7lk7z" />
+    <bpmn:sequenceFlow id="SequenceFlow_1qkyzkw" sourceRef="COR_RED" targetRef="TIME_EVENT_COR" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="cor_predilect">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="156" y="159" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1uh2gdp_di" bpmnElement="ExclusiveGateway_1uh2gdp" isMarkerVisible="true">
+        <dc:Bounds x="457" y="152" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="532" y="167" width="61" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0522q0w_di" bpmnElement="CONSULTAR_COR">
+        <dc:Bounds x="316" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1xdhgcr_di" bpmnElement="COR_RED">
+        <dc:Bounds x="723" y="289" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1j8jm6q_di" bpmnElement="COR_GREN">
+        <dc:Bounds x="723" y="41" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="IntermediateCatchEvent_0z59uwk_di" bpmnElement="TIME_EVENT_COR">
+        <dc:Bounds x="1039" y="63" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0a7lk7z_di" bpmnElement="EndEvent_0a7lk7z">
+        <dc:Bounds x="1291" y="63" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_123kgug_di" bpmnElement="SequenceFlow_123kgug">
+        <di:waypoint x="192" y="177" />
+        <di:waypoint x="316" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1c6rnr5_di" bpmnElement="SequenceFlow_1c6rnr5">
+        <di:waypoint x="416" y="177" />
+        <di:waypoint x="457" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1hxgvoo_di" bpmnElement="SequenceFlow_1hxgvoo">
+        <di:waypoint x="482" y="202" />
+        <di:waypoint x="482" y="329" />
+        <di:waypoint x="723" y="329" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="522" y="310" width="59" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0zlaj2v_di" bpmnElement="SequenceFlow_0zlaj2v">
+        <di:waypoint x="482" y="152" />
+        <di:waypoint x="482" y="81" />
+        <di:waypoint x="723" y="81" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0sg8nq5_di" bpmnElement="SequenceFlow_0sg8nq5">
+        <di:waypoint x="823" y="81" />
+        <di:waypoint x="1039" y="81" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1nmh2pr_di" bpmnElement="SequenceFlow_1nmh2pr">
+        <di:waypoint x="1075" y="81" />
+        <di:waypoint x="1291" y="81" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1qkyzkw_di" bpmnElement="SequenceFlow_1qkyzkw">
+        <di:waypoint x="823" y="329" />
+        <di:waypoint x="931" y="329" />
+        <di:waypoint x="931" y="81" />
+        <di:waypoint x="1039" y="81" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
