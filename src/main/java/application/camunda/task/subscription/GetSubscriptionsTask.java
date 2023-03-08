@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class GetSubscriptionsTask extends TaskDelegate {
     protected final Logger LOGGER = LogManager.getLogger(this.getClass());
+
+    private final String DEFINITION_KEY = "SUSPEND_PRODUCT";
     private CamundaPocUtilService comunadaProcUtilService;
 
 
@@ -21,7 +23,7 @@ public class GetSubscriptionsTask extends TaskDelegate {
     }
 
     public void execute(DelegateExecution delegateExecution) throws Exception {
-        ProcessInstance processInstance = comunadaProcUtilService.findExecutionByDefinitionKey("SUSPEND_PRODUCT");
+        ProcessInstance processInstance = comunadaProcUtilService.findExecutionByDefinitionKey(DEFINITION_KEY);
         LOGGER.info("[ processInstance ] = {}", processInstance);
         String subIsSuspende = processInstance.getCaseInstanceId();
         String businessKey = processInstance.getBusinessKey();
