@@ -18,6 +18,5 @@ public class TestBase {
 	private boolean getBooleano(String flag){
 		return flag.equalsIgnoreCase("true") ? true : false;
 	}
-
 }
 

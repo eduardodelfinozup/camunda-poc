@@ -1,4 +1,4 @@
-package application.camunda.commons;
+package application.camunda.service;
 
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CamundaPocUtil {
+public class CamundaPocUtilService {
     private RuntimeService runtimeService;
 
     @Autowired
-    public CamundaPocUtil(RuntimeService runtimeService) {
+    public CamundaPocUtilService(RuntimeService runtimeService) {
         this.runtimeService = runtimeService;
     }
 
