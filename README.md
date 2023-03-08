@@ -43,10 +43,11 @@ curl --location --request POST 'localhost:8080/workflow/suspend-products-workflo
 
 ```
 Resp:
-
+status 200
 {
     "idProcesso": "c588f81b-bdc8-11ed-8fff-aa5cec0ed428",
-    "subscriptionStatus": "SUSPENDE"
+    "subscriptionStatus": "SUSPENDE",
+    "message": "processo concluido"
 }
 ```
 
@@ -61,10 +62,29 @@ curl --location --request POST 'localhost:8080/workflow/suspend-products-workflo
 
 ```
 Resp:
+status 200
 {
     "idProcesso": "c588f81b-bdc8-11ed-8fff-aa5cec0ed428",
-    "subscriptionStatus": "ACTIVE"
+    "subscriptionStatus": "ACTIVE",
+    "message": "processo concluido"
 }
 ```
 
+#### Ex - 3
+```
+curl --location --request POST 'localhost:8080/workflow/suspend-products-workflow' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "status": "FLAG_QUALQUER"
+}'
+```
 
+```
+Resp:
+status 422
+{
+    "idProcesso": "[ processo null ]",
+    "subscriptionStatus": "FLAG_QUALQUER",
+    "message": "O status precisa ser true ou false"
+}
+```

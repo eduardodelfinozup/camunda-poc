@@ -24,8 +24,22 @@ public class WorkflowService {
     }
 
     public SuspendSubResp suspendProduct(SuspendSubRequest req) {
-        String idProcesso = runtimeService.startProcessInstanceByKey(SUSPEND_PRODUCTS_START, BUSSSINESSkEY, req.getStatus()).getId();
-        return new SuspendSubResp(idProcesso, req.getStatus());
+        return validateRequest(req);
     }
 
+    private SuspendSubResp validateRequest(SuspendSubRequest req) {
+        SuspendSubResp resp = new SuspendSubResp();
+        if (req.getStatus() == null) {
+            return resp.ValidateResp("[ processo null ]", "null", "O status não pode ser null ( precisa passar uma String true ou false)");
+        } else if (!validateStatus(req)) {
+            return resp.ValidateResp("[ processo null ]", req.getStatus(), "O status precisa ser true ou false");
+        } else {
+            String idProcesso = runtimeService.startProcessInstanceByKey(SUSPEND_PRODUCTS_START, BUSSSINESSkEY, req.getStatus()).getId();
+            return new SuspendSubResp(idProcesso, req.getStatus());
+        }
+    }
+
+    private static boolean validateStatus(SuspendSubRequest req) {
+        return req.getStatus().equalsIgnoreCase("true") || req.getStatus().equalsIgnoreCase("false");
+    }
 }
