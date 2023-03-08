@@ -20,7 +20,7 @@ public class CamundaPocUtilService {
                 .singleResult();
     }
 
-    public ProcessInstance findExecutionByDefinitionKey(String businessKey, String definitionKey) {
+    public ProcessInstance findExecutionByBusinessKeyAndDefinitionKey(String businessKey, String definitionKey) {
         return runtimeService.createProcessInstanceQuery()
                 .processInstanceBusinessKey(businessKey, definitionKey)
                 .singleResult();

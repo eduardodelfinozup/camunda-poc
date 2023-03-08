@@ -14,20 +14,20 @@ public class GetSubscriptionsTask extends TaskDelegate {
     protected final Logger LOGGER = LogManager.getLogger(this.getClass());
 
     private final String DEFINITION_KEY = "SUSPEND_PRODUCT";
-    private CamundaPocUtilService comunadaProcUtilService;
+    private CamundaPocUtilService comunadaPocUtilService;
 
 
     @Autowired
     public GetSubscriptionsTask(CamundaPocUtilService comunadaProcUtil) {
-        this.comunadaProcUtilService = comunadaProcUtil;
+        this.comunadaPocUtilService = comunadaProcUtil;
     }
 
     public void execute(DelegateExecution delegateExecution) throws Exception {
-        ProcessInstance processInstance = comunadaProcUtilService.findExecutionByDefinitionKey(DEFINITION_KEY);
+        ProcessInstance processInstance = comunadaPocUtilService.findExecutionByDefinitionKey(DEFINITION_KEY);
         LOGGER.info("[ processInstance ] = {}", processInstance);
         String subIsSuspende = processInstance.getCaseInstanceId();
         String businessKey = processInstance.getBusinessKey();
-        boolean should_Reverse_Subscription_Payment = comunadaProcUtilService.isSubscriptionStatusSuspende(subIsSuspende);
+        boolean should_Reverse_Subscription_Payment = comunadaPocUtilService.isSubscriptionStatusSuspende(subIsSuspende);
         LOGGER.info("[ STATUS-SUB-ID = {} ]", should_Reverse_Subscription_Payment);
 
         if (subIsSuspende.equalsIgnoreCase("true")) {
