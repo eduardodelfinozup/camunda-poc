@@ -32,7 +32,7 @@ curl --location --request POST 'localhost:8080/workflow/cor-predilect'
 ```
 Para testar: no objeto status coloque uma String "true" ou "false" ex: status = "true"
 ```
- 
+#### EX - 1 
 ```
 curl --location --request POST 'localhost:8080/workflow/suspend-products-workflow' \
 --header 'Content-Type: application/json' \
@@ -41,6 +41,30 @@ curl --location --request POST 'localhost:8080/workflow/suspend-products-workflo
 }'
 ```
 
+```
+Resp:
 
+{
+    "idProcesso": "c588f81b-bdc8-11ed-8fff-aa5cec0ed428",
+    "subscriptionStatus": "SUSPENDE"
+}
+```
+
+#### Ex - 2
+```
+curl --location --request POST 'localhost:8080/workflow/suspend-products-workflow' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "status": "false"
+}'
+```
+
+```
+Resp:
+{
+    "idProcesso": "c588f81b-bdc8-11ed-8fff-aa5cec0ed428",
+    "subscriptionStatus": "ACTIVE"
+}
+```
 
 
