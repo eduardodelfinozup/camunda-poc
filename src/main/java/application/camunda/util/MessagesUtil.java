@@ -4,7 +4,7 @@ public class MessagesUtil {
     // START CAMUNDA
     public static final String COR_PREDILECT_START = "cor_predilect";
     public static final String SUSPEND_PRODUCTS_START = "SUSPEND_PRODUCT";
-    public static final String BUSSSINESSkEY = "STAR-CAMUNDA-POC";
+    public static final String BUSSINESSkEY = "STAR-CAMUNDA-POC";
 
     //MESSAGES DE TRATAMENTO DE ERROR
     public static final String ID_PROCESSO_ERROR = "[ processo null ]";

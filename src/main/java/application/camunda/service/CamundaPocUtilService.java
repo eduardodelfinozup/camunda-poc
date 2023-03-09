@@ -22,7 +22,7 @@ public class CamundaPocUtilService {
     }
 
     public String startProcessFluxoSuspendProduct(SuspendSubRequest req) {
-        return runtimeService.startProcessInstanceByKey(SUSPEND_PRODUCTS_START, BUSSSINESSkEY, req.getStatus()).getId();
+        return runtimeService.startProcessInstanceByKey(SUSPEND_PRODUCTS_START, BUSSINESSkEY, req.getStatus()).getId();
     }
 
     public ProcessInstance findExecutionByDefinitionKey(String definitionKey) {

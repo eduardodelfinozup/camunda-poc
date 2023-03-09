@@ -28,7 +28,6 @@ public class GetSubscriptionsTask extends TaskDelegate {
         ProcessInstance processInstance = comunadaPocUtilService.findExecutionByDefinitionKey(DEFINITION_KEY);
         LOGGER.info("[ processInstance ] = {}", processInstance);
         String subIsSuspende = processInstance.getCaseInstanceId();
-        String businessKey = processInstance.getBusinessKey();
         boolean should_Reverse_Subscription_Payment = comunadaPocUtilService.isSubscriptionStatusSuspende(subIsSuspende);
         LOGGER.info("[ STATUS-SUB-ID = {} ]", should_Reverse_Subscription_Payment);
 
@@ -37,7 +36,7 @@ public class GetSubscriptionsTask extends TaskDelegate {
         }
         delegateExecution.setVariable(SUB_ID, SUBSCRIPTION_ID);
         delegateExecution.setVariable("shouldReverseSubscriptionPayment", should_Reverse_Subscription_Payment);
-        delegateExecution.setVariable("businessKey", businessKey);
+        delegateExecution.setVariable("businessKey", BUSSINESSkEY);
 
         LOGGER.info("[ shouldReverseSubscriptionPayment ] = {}", subIsSuspende);
     }
