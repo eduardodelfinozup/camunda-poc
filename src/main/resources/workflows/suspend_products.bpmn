@@ -10,9 +10,9 @@
       <bpmn:outgoing>Flow_0q9431u</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_0q9431u" sourceRef="SUB_ID" targetRef="SUSPEND_SUBSCRIPTIONS" />
-    <bpmn:callActivity id="SUSPEND_SUBSCRIPTIONS" name="suspend" camunda:asyncBefore="true" calledElement="SUSPEND_SUBSCRIPTIONS">
+    <bpmn:callActivity id="SUSPEND_SUBSCRIPTIONS" name="suspend subscriptions" camunda:asyncBefore="true" calledElement="SUSPEND_SUBSCRIPTIONS">
       <bpmn:extensionElements>
-        <camunda:out variables="all" />
+        <camunda:out sourceExpression="${shouldReverseSubscriptionPayment}" target="shouldReverseSubscriptionPayment" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0q9431u</bpmn:incoming>
       <bpmn:outgoing>Flow_1r1hc40</bpmn:outgoing>

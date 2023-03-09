@@ -88,3 +88,10 @@ status 422
     "message": "O status precisa ser true ou false"
 }
 ```
+
+##### Em Out mappings configure
+```
+<bpmn:extensionElements>
+       <camunda:out sourceExpression="${shouldReverseSubscriptionPayment}" target="shouldReverseSubscriptionPayment" />
+</bpmn:extensionElements>
+```

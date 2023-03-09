@@ -16,7 +16,7 @@ public class SuspendSubscriptionsTask extends TaskDelegate {
         String statusSub = delegateExecution.getVariable("shouldReverseSubscriptionPayment").toString();
         LOGGER.info("statusSub {}", statusSub);
         if(statusSub.equalsIgnoreCase("false")){
-            LOGGER.info("[ O STATUS DO SUBSCRIPTION ESTA (ACTIVE) ENTÃO EXECUTE O CACELAMENTO DO PAYMENT ]");
+            LOGGER.info("[ O STATUS DO SUBSCRIPTION ESTA (ACTIVE) EXECUTE O CACELAMENTO DO PAYMENT ]");
             delegateExecution.getVariable(SUB_ID);
         }
     }

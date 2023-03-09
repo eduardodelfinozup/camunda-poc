@@ -32,7 +32,7 @@ public class GetSubscriptionsTask extends TaskDelegate {
         LOGGER.info("[ STATUS-SUB-ID = {} ]", should_Reverse_Subscription_Payment);
 
         if (subIsSuspende.equalsIgnoreCase("true")) {
-            LOGGER.info("[ O STATUS DO SUBSCRIPTION ESTA (SUSPENDE) ENTÃO EXECUTE ( SUSPENDER PRODUTO ) ]");
+            LOGGER.info("[ O STATUS DO SUBSCRIPTION ESTA (SUSPENDE) ENTÃO EXECUTE ( SUSPENDER SUBSCRIPTION ) ]");
         }
         delegateExecution.setVariable(SUB_ID, SUBSCRIPTION_ID);
         delegateExecution.setVariable("shouldReverseSubscriptionPayment", should_Reverse_Subscription_Payment);
