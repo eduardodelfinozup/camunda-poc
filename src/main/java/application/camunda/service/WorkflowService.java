@@ -2,41 +2,46 @@ package application.camunda.service;
 
 import application.camunda.request.SuspendSubRequest;
 import application.camunda.response.SuspendSubResp;
-import org.camunda.bpm.engine.RuntimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static application.camunda.util.MessagesUtil.*;
+
 @Service
 public class WorkflowService {
-    private final String COR_PREDILECT_START = "cor_predilect";
-    private final String SUSPEND_PRODUCTS_START = "SUSPEND_PRODUCT";
-    private final String BUSSSINESSkEY = "STAR-CAMUNDA-POC";
-
-    private RuntimeService runtimeService;
+    private CamundaPocUtilService camundaPocUtilService;
 
     @Autowired
-    public WorkflowService(RuntimeService runtimeService) {
-        this.runtimeService = runtimeService;
+    public WorkflowService(CamundaPocUtilService camundaPocUtilService) {
+        this.camundaPocUtilService = camundaPocUtilService;
     }
 
     public String corPredilectStart() {
-        return runtimeService.startProcessInstanceByKey(COR_PREDILECT_START).getId();
+        return camundaPocUtilService.startProcessFluxoCorPredilect();
     }
 
-    public SuspendSubResp suspendProduct(SuspendSubRequest req) {
-        return validateRequest(req);
+    public SuspendSubResp suspendProductStart(SuspendSubRequest req) {
+        return isStartSuspendProduct(req);
     }
 
-    private SuspendSubResp validateRequest(SuspendSubRequest req) {
+    public static boolean suspendSubRespStatusIsNull(SuspendSubResp suspendSubResp) {
+        return suspendSubResp.getSubscriptionStatus().equalsIgnoreCase("null");
+    }
+
+    private SuspendSubResp isStartSuspendProduct(SuspendSubRequest req) {
         SuspendSubResp resp = new SuspendSubResp();
-        if (req.getStatus() == null) {
-            return resp.ValidateResp("[ processo null ]", "null", "O status não pode ser null ( precisa passar uma String true ou false)");
+        if (statusIsNull(req)) {
+            return resp.ValidateResp(ID_PROCESSO_ERROR, STATUS_IS_NULL, MESSAGE_ERROR_500);
         } else if (!validateStatus(req)) {
-            return resp.ValidateResp("[ processo null ]", req.getStatus(), "O status precisa ser true ou false");
+            return resp.ValidateResp(ID_PROCESSO_ERROR, req.getStatus(), MESSAGE_ERROR_422);
         } else {
-            String idProcesso = runtimeService.startProcessInstanceByKey(SUSPEND_PRODUCTS_START, BUSSSINESSkEY, req.getStatus()).getId();
+            String idProcesso = camundaPocUtilService.startProcessFluxoSuspendProduct(req);
             return new SuspendSubResp(idProcesso, req.getStatus());
         }
+    }
+
+    private static boolean statusIsNull(SuspendSubRequest req) {
+        return req.getStatus() == null;
     }
 
     private static boolean validateStatus(SuspendSubRequest req) {

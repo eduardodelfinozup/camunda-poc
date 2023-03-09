@@ -1,9 +1,12 @@
 package application.camunda.service;
 
+import application.camunda.request.SuspendSubRequest;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import static application.camunda.util.MessagesUtil.*;
 
 @Service
 public class CamundaPocUtilService {
@@ -12,6 +15,14 @@ public class CamundaPocUtilService {
     @Autowired
     public CamundaPocUtilService(RuntimeService runtimeService) {
         this.runtimeService = runtimeService;
+    }
+
+    public String startProcessFluxoCorPredilect() {
+        return runtimeService.startProcessInstanceByKey(COR_PREDILECT_START).getId();
+    }
+
+    public String startProcessFluxoSuspendProduct(SuspendSubRequest req) {
+        return runtimeService.startProcessInstanceByKey(SUSPEND_PRODUCTS_START, BUSSSINESSkEY, req.getStatus()).getId();
     }
 
     public ProcessInstance findExecutionByDefinitionKey(String definitionKey) {

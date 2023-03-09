@@ -9,11 +9,13 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import static application.camunda.util.MessagesUtil.*;
+
 @Component
 public class GetSubscriptionsTask extends TaskDelegate {
     protected final Logger LOGGER = LogManager.getLogger(this.getClass());
 
-    private final String DEFINITION_KEY = "SUSPEND_PRODUCT";
+    private final String DEFINITION_KEY = SUSPEND_PRODUCTS_START;
     private CamundaPocUtilService comunadaPocUtilService;
 
 
@@ -33,7 +35,7 @@ public class GetSubscriptionsTask extends TaskDelegate {
         if (subIsSuspende.equalsIgnoreCase("true")) {
             LOGGER.info("[ O STATUS DO SUBSCRIPTION ESTA (SUSPENDE) ENTÃO EXECUTE ( SUSPENDER PRODUTO ) ]");
         }
-        delegateExecution.setVariable("SUB-ID", "SUB-123456");
+        delegateExecution.setVariable(SUB_ID, SUBSCRIPTION_ID);
         delegateExecution.setVariable("shouldReverseSubscriptionPayment", should_Reverse_Subscription_Payment);
         delegateExecution.setVariable("businessKey", businessKey);
 

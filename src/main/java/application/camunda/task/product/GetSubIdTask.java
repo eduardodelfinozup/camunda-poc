@@ -8,6 +8,8 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import static application.camunda.util.MessagesUtil.*;
+
 @Component
 public class GetSubIdTask extends TaskDelegate {
     protected final Logger LOGGER = LogManager.getLogger(this.getClass());
@@ -17,8 +19,8 @@ public class GetSubIdTask extends TaskDelegate {
     }
 
     public void execute(DelegateExecution delegateExecution) throws Exception {
-        LOGGER.info("BUSCANDO A SUBSCRIPTION ID SUB-123456");
-        delegateExecution.setVariable("SUB-ID", "SUB-123456");
+        LOGGER.info("BUSCANDO A SUBSCRIPTION ID {}", SUBSCRIPTION_ID);
+        delegateExecution.setVariable(SUB_ID, SUBSCRIPTION_ID);
         String businessKey = delegateExecution.getBusinessKey();
         LOGGER.info("[ businessKey ]: {} ", businessKey);
     }

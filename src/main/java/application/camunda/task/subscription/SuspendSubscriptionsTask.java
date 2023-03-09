@@ -6,6 +6,8 @@ import org.apache.logging.log4j.Logger;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.springframework.stereotype.Component;
 
+import static application.camunda.util.MessagesUtil.*;
+
 @Component
 public class SuspendSubscriptionsTask extends TaskDelegate {
     protected final Logger LOGGER = LogManager.getLogger(this.getClass());
@@ -15,7 +17,7 @@ public class SuspendSubscriptionsTask extends TaskDelegate {
         LOGGER.info("statusSub {}", statusSub);
         if(statusSub.equalsIgnoreCase("false")){
             LOGGER.info("[ O STATUS DO SUBSCRIPTION ESTA (ACTIVE) ENTÃO EXECUTE O CACELAMENTO DO PAYMENT ]");
-            delegateExecution.getVariable( "SUB-ID");
+            delegateExecution.getVariable(SUB_ID);
         }
     }
 }
