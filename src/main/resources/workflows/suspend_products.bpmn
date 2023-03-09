@@ -12,7 +12,7 @@
     <bpmn:sequenceFlow id="Flow_0q9431u" sourceRef="SUB_ID" targetRef="SUSPEND_SUBSCRIPTIONS" />
     <bpmn:callActivity id="SUSPEND_SUBSCRIPTIONS" name="suspend subscriptions" camunda:asyncBefore="true" calledElement="SUSPEND_SUBSCRIPTIONS">
       <bpmn:extensionElements>
-        <camunda:out sourceExpression="${shouldReverseSubscriptionPayment}" target="shouldReverseSubscriptionPayment" />
+        <camunda:out sourceExpression="${subscriptionIsSuspended}" target="subscriptionIsSuspended" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0q9431u</bpmn:incoming>
       <bpmn:outgoing>Flow_1r1hc40</bpmn:outgoing>
@@ -24,7 +24,7 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_1r1hc40" sourceRef="SUSPEND_SUBSCRIPTIONS" targetRef="Gateway_1se6as6" />
     <bpmn:sequenceFlow id="ID_CONDICAO_SUB_ATIVA" sourceRef="Gateway_1se6as6" targetRef="SUSPEND_SUB_SOM">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!shouldReverseSubscriptionPayment}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!subscriptionIsSuspended}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="SUSPEND_SUB_SOM" name="som" camunda:asyncBefore="true" camunda:delegateExpression="${somSuspendProductTask}">
       <bpmn:incoming>ID_CONDICAO_SUB_ATIVA</bpmn:incoming>
@@ -41,7 +41,7 @@
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0axrj2y" sourceRef="CUSTOEMR_COMPLET" targetRef="Event_0ete4uz" />
     <bpmn:sequenceFlow id="ID_CONDICAO_SUB_SUSPENSA" sourceRef="Gateway_1se6as6" targetRef="SUSPEND_PRODUCT_STATUS">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${shouldReverseSubscriptionPayment}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${subscriptionIsSuspended}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="CUSTOEMR_COMPLET" name="customer complet" camunda:asyncBefore="true" camunda:delegateExpression="${customerCompletTask}">
       <bpmn:incoming>Flow_11hgk08</bpmn:incoming>

@@ -17,6 +17,7 @@ public class ConsultCor extends TaskDelegate {
     public void execute(DelegateExecution delegateExecution) throws Exception {
 
         String COR_PREDILECT = "RED";
+        delegateExecution.setVariable("flag_test", false);
 
         if(COR_PREDILECT.equals(CorInput.RED.name())){
             LOGGER.info("Cor RED selecionada ...");
