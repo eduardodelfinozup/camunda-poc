@@ -5,6 +5,8 @@ public class MessagesUtil {
     //boolen
     public static final String BOOLEAN_TRUE = "true";
     public static final String BOOLEAN_FALSE = "false";
+    public static final String SUSPENDE = "SUSPENDE";
+    public static final String ACTIVE = "ACTIVE";
 
     // START CAMUNDA
     public static final String COR_PREDILECT_START = "cor_predilect";
@@ -12,10 +14,11 @@ public class MessagesUtil {
     public static final String BUSSINESSkEY = "STAR-CAMUNDA-POC";
 
     //MESSAGES DE TRATAMENTO DE ERROR
-    public static final String ID_PROCESSO_ERROR = "[ processo null ]";
-    public static final String STATUS_IS_NULL = "null";
+    public static final String MESSAGE_ID_PROCESSO_ERROR = "[ processo null ]";
+    public static final String MESSAGE_STATUS_IS_NULL = "null";
     public static final String MESSAGE_ERROR_500 = "O status não pode ser null ( precisa passar uma String true ou false)";
     public static final String MESSAGE_ERROR_422 = "O status precisa ser true ou false";
+    public static final String MESSAGE_PROCESSO_CONCLUIDO = "processo concluido";
 
     //SET VARIABLES
     public static final String SUB_ID = "SUB-ID";

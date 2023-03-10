@@ -33,9 +33,9 @@ public class WorkflowService {
     private SuspendSubResp isStartSuspendProduct(SuspendSubRequest req) {
         SuspendSubResp resp = new SuspendSubResp();
         if (statusIsNull(req)) {
-            return resp.ValidateResp(ID_PROCESSO_ERROR, STATUS_IS_NULL, MESSAGE_ERROR_500);
+            return resp.ValidateResp(MESSAGE_ID_PROCESSO_ERROR, MESSAGE_STATUS_IS_NULL, MESSAGE_ERROR_500);
         } else if (!validateStatus(req)) {
-            return resp.ValidateResp(ID_PROCESSO_ERROR, req.getStatus(), MESSAGE_ERROR_422);
+            return resp.ValidateResp(MESSAGE_ID_PROCESSO_ERROR, req.getStatus(), MESSAGE_ERROR_422);
         } else {
             String idProcesso = camundaPocUtilService.startProcessFluxoSuspendProduct(req);
             return new SuspendSubResp(idProcesso, req.getStatus());

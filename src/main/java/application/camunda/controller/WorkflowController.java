@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static application.camunda.util.ControllerStatic.responseStatus;
-import static application.camunda.util.MessagesUtil.ID_PROCESSO_ERROR;
+import static application.camunda.util.MessagesUtil.MESSAGE_ID_PROCESSO_ERROR;
 import static application.camunda.util.MessagesUtil.MESSAGE_ERROR_422;
 import static org.springframework.http.HttpStatus.*;
 
@@ -41,7 +41,7 @@ public class WorkflowController {
         if (WorkflowService.suspendSubRespStatusIsNull(responseInit)) {
             return responseStatus(responseInit, responseStatusService, INTERNAL_SERVER_ERROR);
         } else if (responseInit == null) {
-            return responseStatus(new SuspendSubResp(ID_PROCESSO_ERROR, req.getStatus()), responseStatusService, UNPROCESSABLE_ENTITY);
+            return responseStatus(new SuspendSubResp(MESSAGE_ID_PROCESSO_ERROR, req.getStatus()), responseStatusService, UNPROCESSABLE_ENTITY);
         } else if (responseInit.getMessage().equalsIgnoreCase(MESSAGE_ERROR_422)) {
             return responseStatus(responseInit, responseStatusService, UNPROCESSABLE_ENTITY);
         } else {

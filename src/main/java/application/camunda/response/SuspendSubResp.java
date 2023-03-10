@@ -1,5 +1,7 @@
 package application.camunda.response;
 
+import static application.camunda.util.MessagesUtil.*;
+
 public class SuspendSubResp {
 
     private String idProcesso;
@@ -18,11 +20,11 @@ public class SuspendSubResp {
     public SuspendSubResp(String idProcesso, String status) {
         this.idProcesso = idProcesso;
         this.subscriptionStatus = subIsActive(status);
-        this.message = "processo concluido";
+        this.message = MESSAGE_PROCESSO_CONCLUIDO;
 
     }
 
-    public  SuspendSubResp ValidateResp(String idProcesso, String status, String message) {
+    public SuspendSubResp ValidateResp(String idProcesso, String status, String message) {
         return new SuspendSubResp(idProcesso, status, message);
     }
 
@@ -39,6 +41,6 @@ public class SuspendSubResp {
     }
 
     private String subIsActive(String status) {
-        return status.equalsIgnoreCase("true")?  "SUSPENDE":  "ACTIVE";
+        return status.equalsIgnoreCase(BOOLEAN_TRUE) ? SUSPENDE : ACTIVE;
     }
 }
