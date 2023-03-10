@@ -9,10 +9,8 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Random;
-
-import static application.camunda.service.CamundaPocUtilService.*;
-import static application.camunda.util.MessagesUtil.*;
+import static application.camunda.util.MessagesUtil.SUSPEND_PRODUCTS_START;
+import static application.camunda.util.VariableStaticUtil.*;
 
 @Component
 public class GetSubscriptionsTask extends TaskDelegate {
@@ -37,19 +35,24 @@ public class GetSubscriptionsTask extends TaskDelegate {
         if (subIsSuspende.equalsIgnoreCase("true")) {
             LOGGER.info("[ O STATUS DO SUBSCRIPTION ESTA (SUSPENDE) ENTÃO EXECUTE ( SUSPENDER SUBSCRIPTION ) ]");
         }
-        boolean flagSholdReverse = getFlag();
+
         setVariableSubscriptionId(delegateExecution);
         setVariableBussinesKey(delegateExecution);
-        if(!flagSubscriptionIsSuspended){
+        if (!flagSubscriptionIsSuspended) {
+            boolean flagSholdReverse = getFlag();
             setVariableSubscriptionIsSuspended(delegateExecution, flagSubscriptionIsSuspended);
-            LOGGER.info("[ subscriptionIsSuspended ] = {}", flagSubscriptionIsSuspended);
+            LOGGER.info("[ subscriptionIsSuspended = ACTIVE] = {}", flagSubscriptionIsSuspended);
 
             seteVariableSholdReverseSubscriptionPayment(delegateExecution, flagSholdReverse);
-            LOGGER.info("[ shouldReverseSubscriptionPayment ] = {}", flagSholdReverse);
+            if(!flagSholdReverse){
+                LOGGER.info("[ shouldReverseSubscriptionPayment {} não realizará o cancelamento do payment ]", flagSholdReverse);
+            }else {
+                LOGGER.info("[ shouldReverseSubscriptionPayment {} realizará o cancelamento do payment ]", flagSholdReverse);
+            }
 
-        }else{
+        } else {
             setVariableSubscriptionIsSuspended(delegateExecution, flagSubscriptionIsSuspended);
-            LOGGER.info("[ subscriptionIsSuspended ] = {}", flagSubscriptionIsSuspended);
+            LOGGER.info("[ subscriptionIsSuspended = SUSPENDED] = {}", flagSubscriptionIsSuspended);
         }
     }
 }

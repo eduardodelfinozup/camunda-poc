@@ -5,6 +5,8 @@ import application.camunda.response.SuspendSubResp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static application.camunda.util.ControllerStatic.statusIsNull;
+import static application.camunda.util.ControllerStatic.validateStatus;
 import static application.camunda.util.MessagesUtil.*;
 
 @Service
@@ -38,13 +40,5 @@ public class WorkflowService {
             String idProcesso = camundaPocUtilService.startProcessFluxoSuspendProduct(req);
             return new SuspendSubResp(idProcesso, req.getStatus());
         }
-    }
-
-    private static boolean statusIsNull(SuspendSubRequest req) {
-        return req.getStatus() == null;
-    }
-
-    private static boolean validateStatus(SuspendSubRequest req) {
-        return req.getStatus().equalsIgnoreCase("true") || req.getStatus().equalsIgnoreCase("false");
     }
 }

@@ -7,11 +7,11 @@ import application.camunda.service.WorkflowService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static application.camunda.util.ControllerStatic.responseStatus;
 import static application.camunda.util.MessagesUtil.ID_PROCESSO_ERROR;
 import static application.camunda.util.MessagesUtil.MESSAGE_ERROR_422;
 import static org.springframework.http.HttpStatus.*;
@@ -21,12 +21,12 @@ import static org.springframework.http.HttpStatus.*;
 public class WorkflowController {
     protected final Logger LOGGER = LogManager.getLogger(this.getClass());
     protected WorkflowService workflowService;
-    protected ResponseStatusService resposeStatus;
+    protected ResponseStatusService responseStatusService;
 
     @Autowired
     public WorkflowController(WorkflowService workflowService, ResponseStatusService resposeStatus) {
         this.workflowService = workflowService;
-        this.resposeStatus = resposeStatus;
+        this.responseStatusService = resposeStatus;
     }
 
     @PostMapping("/cor-predilect")
@@ -39,16 +39,13 @@ public class WorkflowController {
     public ResponseEntity<?> sendMessage(@RequestBody SuspendSubRequest req) {
         SuspendSubResp responseInit = workflowService.suspendProductStart(req);
         if (WorkflowService.suspendSubRespStatusIsNull(responseInit)) {
-            return responseStatus(responseInit, INTERNAL_SERVER_ERROR);
+            return responseStatus(responseInit, INTERNAL_SERVER_ERROR, responseStatusService);
         } else if (responseInit == null) {
-            return responseStatus(new SuspendSubResp(ID_PROCESSO_ERROR, req.getStatus()), UNPROCESSABLE_ENTITY);
+            return responseStatus(new SuspendSubResp(ID_PROCESSO_ERROR, req.getStatus()), UNPROCESSABLE_ENTITY, responseStatusService);
         } else if (responseInit.getMessage().equalsIgnoreCase(MESSAGE_ERROR_422)) {
-            return responseStatus(responseInit, UNPROCESSABLE_ENTITY);
+            return responseStatus(responseInit, UNPROCESSABLE_ENTITY, responseStatusService);
         } else {
-            return responseStatus(responseInit, OK);
+            return responseStatus(responseInit, OK, responseStatusService);
         }
-    }
-    private ResponseEntity<?> responseStatus(SuspendSubResp responseInit, HttpStatus httpStatus) {
-        return resposeStatus.responseStatusService(responseInit, httpStatus);
     }
 }

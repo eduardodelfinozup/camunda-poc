@@ -1,6 +1,11 @@
 package application.camunda.util;
 
 public class MessagesUtil {
+
+    //boolen
+    public static final String BOOLEAN_TRUE = "true";
+    public static final String BOOLEAN_FALSE = "false";
+
     // START CAMUNDA
     public static final String COR_PREDILECT_START = "cor_predilect";
     public static final String SUSPEND_PRODUCTS_START = "SUSPEND_PRODUCT";
