@@ -10,7 +10,7 @@ import static application.camunda.util.MessagesUtil.BOOLEAN_FALSE;
 import static application.camunda.util.MessagesUtil.BOOLEAN_TRUE;
 
 public class ControllerStatic {
-    public static ResponseEntity<?> responseStatus(SuspendSubResp responseInit, HttpStatus httpStatus, ResponseStatusService responseStatusService) {
+    public static ResponseEntity<?> responseStatus(SuspendSubResp responseInit, ResponseStatusService responseStatusService, HttpStatus httpStatus) {
         return responseStatusService.responseStatusService(responseInit, httpStatus);
     }
 

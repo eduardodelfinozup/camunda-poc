@@ -39,13 +39,13 @@ public class WorkflowController {
     public ResponseEntity<?> sendMessage(@RequestBody SuspendSubRequest req) {
         SuspendSubResp responseInit = workflowService.suspendProductStart(req);
         if (WorkflowService.suspendSubRespStatusIsNull(responseInit)) {
-            return responseStatus(responseInit, INTERNAL_SERVER_ERROR, responseStatusService);
+            return responseStatus(responseInit, responseStatusService, INTERNAL_SERVER_ERROR);
         } else if (responseInit == null) {
-            return responseStatus(new SuspendSubResp(ID_PROCESSO_ERROR, req.getStatus()), UNPROCESSABLE_ENTITY, responseStatusService);
+            return responseStatus(new SuspendSubResp(ID_PROCESSO_ERROR, req.getStatus()), responseStatusService, UNPROCESSABLE_ENTITY);
         } else if (responseInit.getMessage().equalsIgnoreCase(MESSAGE_ERROR_422)) {
-            return responseStatus(responseInit, UNPROCESSABLE_ENTITY, responseStatusService);
+            return responseStatus(responseInit, responseStatusService, UNPROCESSABLE_ENTITY);
         } else {
-            return responseStatus(responseInit, OK, responseStatusService);
+            return responseStatus(responseInit, responseStatusService, OK);
         }
     }
 }
