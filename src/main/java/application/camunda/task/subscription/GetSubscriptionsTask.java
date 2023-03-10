@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
+import static application.camunda.service.CamundaPocUtilService.*;
 import static application.camunda.util.MessagesUtil.*;
 
 @Component
@@ -37,20 +38,18 @@ public class GetSubscriptionsTask extends TaskDelegate {
             LOGGER.info("[ O STATUS DO SUBSCRIPTION ESTA (SUSPENDE) ENTÃO EXECUTE ( SUSPENDER SUBSCRIPTION ) ]");
         }
         boolean flagSholdReverse = getFlag();
-        delegateExecution.setVariable(SUB_ID, SUBSCRIPTION_ID);
-        delegateExecution.setVariable("subscriptionIsSuspended", flagSubscriptionIsSuspended);
-        delegateExecution.setVariable("shouldReverseSubscriptionPayment", flagSholdReverse);
-        delegateExecution.setVariable("businessKey", BUSSINESSkEY);
+        setVariableSubscriptionId(delegateExecution);
+        setVariableBussinesKey(delegateExecution);
+        if(!flagSubscriptionIsSuspended){
+            setVariableSubscriptionIsSuspended(delegateExecution, flagSubscriptionIsSuspended);
+            LOGGER.info("[ subscriptionIsSuspended ] = {}", flagSubscriptionIsSuspended);
 
-        LOGGER.info("[ subscriptionIsSuspended ] = {}", flagSubscriptionIsSuspended);
-        LOGGER.info("[ shouldReverseSubscriptionPayment ] = {}", flagSholdReverse);
-    }
-    private int gerarValor(){
-        Random gerador = new Random();
-        return gerador.nextInt();
-    }
-    private boolean getFlag(){
-        int valor = gerarValor();
-        return valor > 0 ? true : false;
+            seteVariableSholdReverseSubscriptionPayment(delegateExecution, flagSholdReverse);
+            LOGGER.info("[ shouldReverseSubscriptionPayment ] = {}", flagSholdReverse);
+
+        }else{
+            setVariableSubscriptionIsSuspended(delegateExecution, flagSubscriptionIsSuspended);
+            LOGGER.info("[ subscriptionIsSuspended ] = {}", flagSubscriptionIsSuspended);
+        }
     }
 }

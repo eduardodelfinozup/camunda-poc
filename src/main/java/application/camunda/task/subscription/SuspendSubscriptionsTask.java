@@ -6,18 +6,18 @@ import org.apache.logging.log4j.Logger;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.springframework.stereotype.Component;
 
-import static application.camunda.util.MessagesUtil.*;
+import static application.camunda.service.CamundaPocUtilService.*;
 
 @Component
 public class SuspendSubscriptionsTask extends TaskDelegate {
     protected final Logger LOGGER = LogManager.getLogger(this.getClass());
     public void execute(DelegateExecution delegateExecution) throws Exception {
 
-        String statusSub = delegateExecution.getVariable("shouldReverseSubscriptionPayment").toString();
+        String statusSub = geVariabletShouldReverseSubscriptionPayment(delegateExecution);
         LOGGER.info("statusSub {}", statusSub);
         if(statusSub.equalsIgnoreCase("true")){
             LOGGER.info("[ EXECUTE O CACELAMENTO DO PAYMENT ]");
-            delegateExecution.getVariable(SUB_ID);
+            getVariableSubId(delegateExecution);
         }
     }
 }

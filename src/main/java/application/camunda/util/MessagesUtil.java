@@ -15,4 +15,6 @@ public class MessagesUtil {
     //SET VARIABLES
     public static final String SUB_ID = "SUB-ID";
     public static final String SUBSCRIPTION_ID = "SUB-123456";
+    public static final String SHOLD_REBERSE_SUBSCRIPTION_PAYMENT = "shouldReverseSubscriptionPayment";
+    public static final String SUBSCRIPTION_IS_SUSPENDED = "subscriptionIsSuspended";
 }
