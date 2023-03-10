@@ -36,11 +36,6 @@ public class CamundaPocUtilService {
                 .processInstanceBusinessKey(businessKey, definitionKey)
                 .singleResult();
     }
-
-    public boolean isSubscriptionStatusSuspende(String flag) {
-        return flag.equalsIgnoreCase(BOOLEAN_TRUE) ? true : false;
-    }
-
     public void killProcess(String processId, String definitionKey) {
         runtimeService.deleteProcessInstance(processId, definitionKey);
     }

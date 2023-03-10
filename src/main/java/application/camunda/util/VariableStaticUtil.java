@@ -29,6 +29,10 @@ public class VariableStaticUtil {
         return delegateExecution.getVariable(SHOLD_REBERSE_SUBSCRIPTION_PAYMENT).toString();
     }
 
+    public static boolean stringValueBoolean(String flag) {
+        return flag.equalsIgnoreCase(BOOLEAN_TRUE) ? true : false;
+    }
+
     public static  int gerarValor(){
         Random gerador = new Random();
         return gerador.nextInt();

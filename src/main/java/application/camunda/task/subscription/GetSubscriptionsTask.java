@@ -29,7 +29,7 @@ public class GetSubscriptionsTask extends TaskDelegate {
         ProcessInstance processInstance = comunadaPocUtilService.findExecutionByDefinitionKey(DEFINITION_KEY);
         LOGGER.info("[ processInstance ] = {}", processInstance);
         String subIsSuspende = processInstance.getCaseInstanceId();
-        boolean flagSubscriptionIsSuspended = comunadaPocUtilService.isSubscriptionStatusSuspende(subIsSuspende);
+        boolean flagSubscriptionIsSuspended = stringValueBoolean(subIsSuspende);
         LOGGER.info("[ STATUS-SUB-ID = {} ]", flagSubscriptionIsSuspended);
 
         if (subIsSuspende.equalsIgnoreCase("true")) {
